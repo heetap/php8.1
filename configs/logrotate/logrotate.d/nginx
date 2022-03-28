@@ -1,0 +1,17 @@
+/var/log/nginx/*.log
+/var/log/nginx/*.json
+{
+    daily
+    missingok
+    rotate 2
+    compress
+    delaycompress
+    notifempty
+    sharedscripts
+    postrotate
+        # rotate nginx log if run under service
+        # invoke-rc.d nginx rotate >/dev/null 2>&1
+        # rotate nginx log if run under supervisor
+        /bin/kill -USR1 $(/usr/bin/supervisorctl pid nginx:nginxd)
+    endscript
+}

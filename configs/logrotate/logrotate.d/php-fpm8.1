@@ -1,0 +1,15 @@
+/var/log/php/*.log
+{
+    rotate 2
+    daily
+    missingok
+    notifempty
+    compress
+    delaycompress
+    postrotate
+        PIDFILE=/run/php/php8.1-fpm.pid
+        if [ -r "$PIDFILE" ]; then
+            kill -USR1 $(cat "$PIDFILE") > /dev/null
+        fi
+    endscript
+}
